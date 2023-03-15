@@ -1,0 +1,15 @@
+C:\Users\EpikG\source\repos\MidtermServer\MidtermServer\bin\Debug\net6.0\MidtermServer.exe
+C:\Users\EpikG\source\repos\MidtermServer\MidtermServer\bin\Debug\net6.0\MidtermServer.deps.json
+C:\Users\EpikG\source\repos\MidtermServer\MidtermServer\bin\Debug\net6.0\MidtermServer.runtimeconfig.json
+C:\Users\EpikG\source\repos\MidtermServer\MidtermServer\bin\Debug\net6.0\MidtermServer.dll
+C:\Users\EpikG\source\repos\MidtermServer\MidtermServer\bin\Debug\net6.0\MidtermServer.pdb
+C:\Users\EpikG\source\repos\MidtermServer\MidtermServer\obj\Debug\net6.0\MidtermServer.csproj.AssemblyReference.cache
+C:\Users\EpikG\source\repos\MidtermServer\MidtermServer\obj\Debug\net6.0\MidtermServer.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\EpikG\source\repos\MidtermServer\MidtermServer\obj\Debug\net6.0\MidtermServer.AssemblyInfoInputs.cache
+C:\Users\EpikG\source\repos\MidtermServer\MidtermServer\obj\Debug\net6.0\MidtermServer.AssemblyInfo.cs
+C:\Users\EpikG\source\repos\MidtermServer\MidtermServer\obj\Debug\net6.0\MidtermServer.csproj.CoreCompileInputs.cache
+C:\Users\EpikG\source\repos\MidtermServer\MidtermServer\obj\Debug\net6.0\MidtermServer.dll
+C:\Users\EpikG\source\repos\MidtermServer\MidtermServer\obj\Debug\net6.0\refint\MidtermServer.dll
+C:\Users\EpikG\source\repos\MidtermServer\MidtermServer\obj\Debug\net6.0\MidtermServer.pdb
+C:\Users\EpikG\source\repos\MidtermServer\MidtermServer\obj\Debug\net6.0\MidtermServer.genruntimeconfig.cache
+C:\Users\EpikG\source\repos\MidtermServer\MidtermServer\obj\Debug\net6.0\ref\MidtermServer.dll
