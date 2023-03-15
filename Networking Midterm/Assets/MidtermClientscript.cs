@@ -8,9 +8,11 @@ using System.Net;
 using System.Text;
 using System.Net.Sockets;
 using TMPro;
+using System.Threading;
 
 public class MidtermClientscript : MonoBehaviour
 {
+    private Thread chatThread;
     public bool newMSG = false;
     String userText = "test";
     public string input = "est";
@@ -65,7 +67,7 @@ public class MidtermClientscript : MonoBehaviour
         {
             IPAddress ip = IPAddress.Parse("127.0.0.1");
             //IPAddress ip = Dns.GetHostAddresses("mail.bigpond.com")[0]; //DNS will translate a URL to an IP
-            IPEndPoint serverEP = new IPEndPoint(ip, 8888);
+            IPEndPoint serverEP = new IPEndPoint(ip, 52030);
             //Setup our client socket
             Socket client = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
             try
@@ -84,7 +86,7 @@ public class MidtermClientscript : MonoBehaviour
                     client.Receive(buffer);
                     String clMSG = Encoding.ASCII.GetString(buffer);
                     Console.WriteLine(clMSG);
-                    userText = osText.GetComponent<TMP_InputField>().text;
+                    userText = input;
                     userText += " -From Client";
                     byte[] userMSG = Encoding.ASCII.GetBytes(userText);
                     client.Send(userMSG);
@@ -123,11 +125,13 @@ public class MidtermClientscript : MonoBehaviour
     }
 
         // Start is called before the first frame update
-        void Start() {
+    void Start() {
         myCube = GameObject.Find("Cube");
+        chatThread = new Thread(StartChatClient);
+        chatThread.Start();
         //StartClient();
         Console.ReadKey();
-        StartChatClient();
+        //StartChatClient();
     }
 
     // Update is called once per frame

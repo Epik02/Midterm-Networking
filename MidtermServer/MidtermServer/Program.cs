@@ -55,8 +55,8 @@ public class ServerMidterm
         String userText;
         byte[] buffer = new byte[512];
         IPAddress ip = IPAddress.Parse("127.0.0.1");
-        IPEndPoint ChatEP = new IPEndPoint(ip, 8888);
-        Socket ServerChat = new Socket(ip.AddressFamily, SocketType.Stream, ProtocolType.Tcp);
+        IPEndPoint ChatEP = new IPEndPoint(ip, 52030);
+        Socket ServerChat = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
         try
         {
             ServerChat.Bind(ChatEP);
@@ -66,9 +66,8 @@ public class ServerMidterm
             // socketHandler
             Socket client = ServerChat.Accept();
             Console.WriteLine("Client Connected to chat");
-            IPEndPoint CEP = (IPEndPoint)client.RemoteEndPoint;
 
-            Console.WriteLine("Client: {0}  Port: {1}", CEP.Address, CEP.Port);
+            Console.WriteLine("Client: {0}  Port: {1}", ChatEP.Address, ChatEP.Port);
             byte[] msg = Encoding.ASCII.GetBytes("it WORKS YASSSSSSSSSSSSSSSS");
             // Sending data to connected client
             client.Send(msg);
