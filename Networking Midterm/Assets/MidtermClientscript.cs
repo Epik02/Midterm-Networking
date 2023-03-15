@@ -13,6 +13,7 @@ using System.Threading;
 public class MidtermClientscript : MonoBehaviour
 {
     private Thread chatThread;
+    string fo = "";
     string clMSG;
     public TMP_Text tmp;
     private string checkText; //checks to see if text is same as CSMSG so we only display once
@@ -85,13 +86,15 @@ public class MidtermClientscript : MonoBehaviour
                 {
                     buffer = new byte[512];
                     userText = input;
-                    userText += " -Gamer1";
+                    userText += " -Gamer1<br>";
                     byte[] userMSG = Encoding.ASCII.GetBytes(userText);
                     client.Send(userMSG);
 
                     client.Receive(buffer);
                     clMSG = Encoding.ASCII.GetString(buffer);
                     Debug.Log(clMSG);
+
+                    fo = clMSG;
 
                     if (userText == "exit")
                     {
@@ -139,8 +142,10 @@ public class MidtermClientscript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+
         Debug.Log(input);
         tmp.text = clMSG;
+        //tmp.text += "<br>";
         //if (myCube.transform.position != LastPos)
         //{
         //    ArrayExample = new float[] { myCube.transform.position.x,

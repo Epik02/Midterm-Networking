@@ -85,7 +85,7 @@ public class MidtermClientscript : MonoBehaviour
                 {
                     buffer = new byte[512];
                     userText = input;
-                    userText += " -Gamer2";
+                    userText += " -Gamer2<br>";
                     byte[] userMSG = Encoding.ASCII.GetBytes(userText);
                     client.Send(userMSG);
 

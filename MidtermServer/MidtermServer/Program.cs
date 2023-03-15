@@ -83,8 +83,8 @@ public class ServerMidterm
             {
                 buffer = new byte[512];
                 buffer2 = new byte[512];
-                userText = "test, test, plz work";
-                userText += " -0";
+                userText = "<br>";
+                //userText += " -0";
                 byte[] userMSG = Encoding.ASCII.GetBytes(userText);
                 client.Send(userMSG);
                 client2.Send(userMSG);
@@ -98,16 +98,18 @@ public class ServerMidterm
                 Console.WriteLine(clMSG2);
                 byte[] receivedMSG = Encoding.ASCII.GetBytes(clMSG);
                 byte[] receivedMSG2 = Encoding.ASCII.GetBytes(clMSG2);
+
                 if (clMSG != fo)
                 {
-                    client.Send(receivedMSG);
+                    client.Send(receivedMSG2);
                     Console.WriteLine(clMSG);
                 }
                 if (clMSG2 != fo2)
                 {
-                    client2.Send(receivedMSG2);
+                    client2.Send(receivedMSG);
                     Console.WriteLine(clMSG2);
                 }
+
                 clMSG = fo;
                 clMSG2 = fo2;
                 //Console.WriteLine("From Server: {0}", Encoding.ASCII.GetString(buffer, 0, client.Receive(buffer)));
