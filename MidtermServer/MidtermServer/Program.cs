@@ -55,8 +55,10 @@ public class ServerMidterm
     public static void StartChat()
     {
         String userText;
-        String fo = "";
+        String fo = "hello";
+        String fo2 = "there";
         byte[] buffer = new byte[512];
+        byte[] buffer2 = new byte[512];
         IPAddress ip = IPAddress.Parse("127.0.0.1");
         IPEndPoint ChatEP = new IPEndPoint(ip, 52030);
         Socket ServerChat = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
@@ -68,28 +70,46 @@ public class ServerMidterm
 
             // socketHandler
             Socket client = ServerChat.Accept();
-            Console.WriteLine("Client Connected to chat");
+            Console.WriteLine("Client Connected to Client 1");
+
+            Socket client2 = ServerChat.Accept();
+            Console.WriteLine("Connected to Client 2");
 
             Console.WriteLine("Client: {0}  Port: {1}", ChatEP.Address, ChatEP.Port);
-            byte[] msg = Encoding.ASCII.GetBytes("it WORKS YASSSSSSSSSSSSSSSS");
+            //byte[] msg = Encoding.ASCII.GetBytes("it WORKS YASSSSSSSSSSSSSSSS");
             // Sending data to connected client
-            client.Send(msg);
+            //client.Send(msg);
             while (true)
             {
                 buffer = new byte[512];
-                //userText = "test, test, plz work";
-                //userText += " -0";
-                //byte[] userMSG = Encoding.ASCII.GetBytes(userText);
-                //client.Send(userMSG);
+                buffer2 = new byte[512];
+                userText = "test, test, plz work";
+                userText += " -0";
+                byte[] userMSG = Encoding.ASCII.GetBytes(userText);
+                client.Send(userMSG);
+                client2.Send(userMSG);
                 client.Receive(buffer);
+
+                client2.Receive(buffer2);
+
                 string clMSG = Encoding.ASCII.GetString(buffer);
+                Console.WriteLine(clMSG);
+                string clMSG2 = Encoding.ASCII.GetString(buffer2);
+                Console.WriteLine(clMSG2);
                 byte[] receivedMSG = Encoding.ASCII.GetBytes(clMSG);
+                byte[] receivedMSG2 = Encoding.ASCII.GetBytes(clMSG2);
                 if (clMSG != fo)
                 {
                     client.Send(receivedMSG);
                     Console.WriteLine(clMSG);
                 }
+                if (clMSG2 != fo2)
+                {
+                    client2.Send(receivedMSG2);
+                    Console.WriteLine(clMSG2);
+                }
                 clMSG = fo;
+                clMSG2 = fo2;
                 //Console.WriteLine("From Server: {0}", Encoding.ASCII.GetString(buffer, 0, client.Receive(buffer)));
 
                 if (clMSG == "exit")
@@ -105,8 +125,10 @@ public class ServerMidterm
             // end loop
 
 
-            //client.Shutdown(SocketShutdown.Both);
-            //client.Close();
+            client.Shutdown(SocketShutdown.Both);
+            client.Close();
+            client2.Shutdown(SocketShutdown.Both);
+            client2.Close();
 
         }
         catch (Exception e)
