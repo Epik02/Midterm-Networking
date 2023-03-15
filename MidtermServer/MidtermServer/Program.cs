@@ -2,11 +2,13 @@
 using System.Text;
 using System.Net;
 using System.Net.Sockets;
+using System.Runtime.CompilerServices;
 
 public class ServerMidterm
 {
     private static float[] pos;
     private static byte[] byteArray;
+    //private string fo = "";
     //private static float[] ExampleArray;
     public static void StartServer()
     {
@@ -53,6 +55,7 @@ public class ServerMidterm
     public static void StartChat()
     {
         String userText;
+        String fo = "";
         byte[] buffer = new byte[512];
         IPAddress ip = IPAddress.Parse("127.0.0.1");
         IPEndPoint ChatEP = new IPEndPoint(ip, 52030);
@@ -74,18 +77,22 @@ public class ServerMidterm
             while (true)
             {
                 buffer = new byte[512];
-                userText = "test, test, plz work";
-                userText += " -0";
-                byte[] userMSG = Encoding.ASCII.GetBytes(userText);
-                client.Send(userMSG);
+                //userText = "test, test, plz work";
+                //userText += " -0";
+                //byte[] userMSG = Encoding.ASCII.GetBytes(userText);
+                //client.Send(userMSG);
                 client.Receive(buffer);
                 string clMSG = Encoding.ASCII.GetString(buffer);
                 byte[] receivedMSG = Encoding.ASCII.GetBytes(clMSG);
-                client.Send(receivedMSG);
-                Console.WriteLine(clMSG);
+                if (clMSG != fo)
+                {
+                    client.Send(receivedMSG);
+                    Console.WriteLine(clMSG);
+                }
+                clMSG = fo;
                 //Console.WriteLine("From Server: {0}", Encoding.ASCII.GetString(buffer, 0, client.Receive(buffer)));
 
-                if (userText == "exit")
+                if (clMSG == "exit")
                 {
                     break;
                 }

@@ -13,6 +13,9 @@ using System.Threading;
 public class MidtermClientscript : MonoBehaviour
 {
     private Thread chatThread;
+    string clMSG;
+    public TMP_Text tmp;
+    private string checkText; //checks to see if text is same as CSMSG so we only display once
     public bool newMSG = false;
     String userText = "test";
     public string input = "est";
@@ -78,18 +81,17 @@ public class MidtermClientscript : MonoBehaviour
                 Console.WriteLine("Connected to IP: {0}", client.RemoteEndPoint.ToString());
                 int recv = client.Receive(buffer);
 
-                //newshit
-                //newshit
                 while (true)
                 {
                     buffer = new byte[512];
-                    client.Receive(buffer);
-                    String clMSG = Encoding.ASCII.GetString(buffer);
-                    Debug.Log(clMSG);
                     userText = input;
-                    userText += " -1";
+                    userText += " -Gamer1";
                     byte[] userMSG = Encoding.ASCII.GetBytes(userText);
                     client.Send(userMSG);
+
+                    client.Receive(buffer);
+                    clMSG = Encoding.ASCII.GetString(buffer);
+                    Debug.Log(clMSG);
 
                     if (userText == "exit")
                     {
@@ -138,6 +140,7 @@ public class MidtermClientscript : MonoBehaviour
     void Update()
     {
         Debug.Log(input);
+        tmp.text = clMSG;
         //if (myCube.transform.position != LastPos)
         //{
         //    ArrayExample = new float[] { myCube.transform.position.x,
