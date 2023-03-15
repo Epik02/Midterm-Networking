@@ -75,11 +75,13 @@ public class ServerMidterm
             {
                 buffer = new byte[512];
                 userText = "test, test, plz work";
-                userText += " -From Server";
+                userText += " -0";
                 byte[] userMSG = Encoding.ASCII.GetBytes(userText);
                 client.Send(userMSG);
                 client.Receive(buffer);
-                String clMSG = Encoding.ASCII.GetString(buffer);
+                string clMSG = Encoding.ASCII.GetString(buffer);
+                byte[] receivedMSG = Encoding.ASCII.GetBytes(clMSG);
+                client.Send(receivedMSG);
                 Console.WriteLine(clMSG);
                 //Console.WriteLine("From Server: {0}", Encoding.ASCII.GetString(buffer, 0, client.Receive(buffer)));
 
