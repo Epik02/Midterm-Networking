@@ -89,29 +89,21 @@ public class ServerMidterm
                 client.Send(userMSG);
                 client2.Send(userMSG);
                 client.Receive(buffer);
-
                 client2.Receive(buffer2);
 
                 string clMSG = Encoding.ASCII.GetString(buffer);
-                Console.WriteLine(clMSG);
+                //Console.WriteLine(clMSG);
                 string clMSG2 = Encoding.ASCII.GetString(buffer2);
-                Console.WriteLine(clMSG2);
+                //Console.WriteLine(clMSG2);
                 byte[] receivedMSG = Encoding.ASCII.GetBytes(clMSG);
                 byte[] receivedMSG2 = Encoding.ASCII.GetBytes(clMSG2);
 
-                if (clMSG != fo)
-                {
-                    client.Send(receivedMSG2);
-                    Console.WriteLine(clMSG);
-                }
-                if (clMSG2 != fo2)
-                {
-                    client2.Send(receivedMSG);
-                    Console.WriteLine(clMSG2);
-                }
+                client.Send(receivedMSG2);
+                Console.WriteLine(clMSG);
 
-                clMSG = fo;
-                clMSG2 = fo2;
+                client2.Send(receivedMSG);
+                Console.WriteLine(clMSG2);
+
                 //Console.WriteLine("From Server: {0}", Encoding.ASCII.GetString(buffer, 0, client.Receive(buffer)));
 
                 if (clMSG == "exit")

@@ -143,8 +143,15 @@ public class MidtermClientscript : MonoBehaviour
     void Update()
     {
 
-        Debug.Log(input);
-        tmp.text = clMSG;
+        //Debug.Log(input);
+
+        //Debug.Log(clMSG);
+        //Debug.Log(fo);
+
+        //if (clMSG != fo)
+        //{
+            tmp.text = clMSG;
+        //}
         //tmp.text += "<br>";
         //if (myCube.transform.position != LastPos)
         //{
