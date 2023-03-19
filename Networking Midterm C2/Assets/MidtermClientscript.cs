@@ -13,6 +13,8 @@ using System.Threading;
 public class MidtermClientscript : MonoBehaviour
 {
     private Thread chatThread;
+    private Thread posThread; //for position exchange
+    string fo = "";
     string clMSG;
     public TMP_Text tmp;
     private string checkText; //checks to see if text is same as CSMSG so we only display once
@@ -25,6 +27,7 @@ public class MidtermClientscript : MonoBehaviour
     private static byte[] outBuffer = new byte[512];
     private static IPEndPoint remoteEP;
     private static IPEndPoint ChatEP;
+    public GameObject CubeObject;
 
     private static EndPoint remoteClient;
 
@@ -41,7 +44,6 @@ public class MidtermClientscript : MonoBehaviour
         {
             IPAddress ip = IPAddress.Parse("127.0.0.1");
             remoteEP = new IPEndPoint(ip, 8889);
-            ChatEP = new IPEndPoint(ip, 8888);
 
             clientSoc = new Socket(AddressFamily.InterNetwork,
                 SocketType.Dgram, ProtocolType.Udp);
@@ -85,13 +87,15 @@ public class MidtermClientscript : MonoBehaviour
                 {
                     buffer = new byte[512];
                     userText = input;
-                    userText += " -Gamer2<br>";
+                    userText += " -Gamer1<br>";
                     byte[] userMSG = Encoding.ASCII.GetBytes(userText);
                     client.Send(userMSG);
 
                     client.Receive(buffer);
                     clMSG = Encoding.ASCII.GetString(buffer);
                     Debug.Log(clMSG);
+
+                    fo = clMSG;
 
                     if (userText == "exit")
                     {
@@ -126,11 +130,14 @@ public class MidtermClientscript : MonoBehaviour
         }
     }
 
-        // Start is called before the first frame update
-    void Start() {
+    // Start is called before the first frame update
+    void Start()
+    {
         myCube = GameObject.Find("Cube");
-        chatThread = new Thread(StartChatClient);
-        chatThread.Start();
+        //chatThread = new Thread(StartChatClient);
+        //chatThread.Start();
+        posThread = new Thread(StartClient);
+        posThread.Start();
         //StartClient();
         Console.ReadKey();
         //StartChatClient();
@@ -139,37 +146,15 @@ public class MidtermClientscript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        Debug.Log(input);
         tmp.text = clMSG;
-        //if (myCube.transform.position != LastPos)
-        //{
-        //    ArrayExample = new float[] { myCube.transform.position.x,
-        //    myCube.transform.position.y, myCube.transform.position.z };
-        //    byteArray = new byte[ArrayExample.Length * 4];
-        //    LastPos = myCube.transform.position;
-        //    Buffer.BlockCopy(ArrayExample, 0, byteArray, 0, byteArray.Length);
 
-        //    clientSoc.SendTo(byteArray, remoteEP);
+        outBuffer = Encoding.ASCII.GetBytes(CubeObject.transform.position.x.ToString());
+        clientSoc.SendTo(outBuffer, remoteEP);
 
-        //    Debug.Log("Cube is Moving");
-        //}
+        outBuffer = Encoding.ASCII.GetBytes(CubeObject.transform.position.y.ToString());
+        clientSoc.SendTo(outBuffer, remoteEP);
 
-
-
-
-
-        //if (inputCheck.Equals(input) == false)
-        //{
-        //    Socket client = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
-        //    //buffer = new byte[512];
-        //    //client.Receive(buffer);
-        //    //String clMSG = Encoding.ASCII.GetString(buffer);
-        //    //Console.WriteLine(clMSG);
-        //    userText = input;
-        //    userText += " -From Client";
-        //    byte[] userMSG = Encoding.ASCII.GetBytes(userText);
-        //    client.Send(userMSG);
-        //}
-        //inputCheck = input;
+        outBuffer = Encoding.ASCII.GetBytes(CubeObject.transform.position.z.ToString());
+        clientSoc.SendTo(outBuffer, remoteEP);
     }
 }

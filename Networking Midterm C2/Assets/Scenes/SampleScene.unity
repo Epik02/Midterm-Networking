@@ -1166,6 +1166,7 @@ MonoBehaviour:
   inputCheck: 
   myCube: {fileID: 1368838273}
   osText: {fileID: 213009895}
+  CubeObject: {fileID: 1368838273}
 --- !u!114 &1089945708
 MonoBehaviour:
   m_ObjectHideFlags: 0
