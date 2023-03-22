@@ -7,12 +7,13 @@ using System.Net;
 using System.Net.Sockets;
 using System.Runtime.CompilerServices;
 using System.Numerics;
+using System.Xml.Schema;
 
 public class ServerMidterm
 {
     private static float[] pos;
     private static byte[] byteArray;
-    private static byte[] buff = new byte[512];
+    private static byte[] buff = new byte[1024];
     static int int1, int2, int3, int4, int5, int6;
     private static Socket server;
     private static Socket client, client2;
@@ -25,14 +26,18 @@ public class ServerMidterm
     {
        // byte[] buff = new byte[512];
         IPAddress ip = IPAddress.Parse("127.0.0.1");
-        Console.WriteLine("Server name: {0}, ip");
+        Console.WriteLine("Server name: {0}");
+
         IPEndPoint localEP = new IPEndPoint(ip, 8889);
-        IPEndPoint localEP2 = new IPEndPoint(ip, 8888);
-        //IPEndPoint ChatEP = new IPEndPoint(ip, 8888);
         server = new Socket(ip.AddressFamily,SocketType.Dgram, ProtocolType.Udp);
 
-        remoteClient = new IPEndPoint(IPAddress.Any, 8889);
-        remoteClient2 = new IPEndPoint(IPAddress.Any, 8889);
+        remoteClient = new IPEndPoint(IPAddress.Any, 0);
+
+        List<string> clients = new List<string>();
+        List<string> posX = new List<string>();
+        List<string> posY = new List<string>();
+        List<string> posZ = new List<string>();
+        List<EndPoint> endPoints = new List<EndPoint>();
 
         try
         {
@@ -41,27 +46,55 @@ public class ServerMidterm
             Console.WriteLine("Waiting for data....");
             while (true)
             {
-                Console.WriteLine(Xvalue);
+                buff = new byte[1024];
                 int1 = server.ReceiveFrom(buff, ref remoteClient);
-                float.TryParse(Encoding.ASCII.GetString(buff, 0, int1), out Xvalue);
-                //server.Send(buff);
 
-                int2 = server.ReceiveFrom(buff, ref remoteClient);
-                float.TryParse(Encoding.ASCII.GetString(buff, 0, int2), out yvalue);
-                //server.Send(buff);
+                string positionData = Encoding.ASCII.GetString(buff);
+                string[] splitPosData = positionData.Split(",");
+                string clientName = splitPosData[0];
 
-                int3 = server.ReceiveFrom(buff, ref remoteClient);
-                float.TryParse(Encoding.ASCII.GetString(buff, 0, int3), out zvalue);
+                int clientNum = -1;
+                for (int i = 0; i < clients.Count; ++i)
+                {
+                    if (clients[i] == clientName)
+                    {
+                        clientNum = -1;
+                    }
+                }
 
-                Console.WriteLine(Xvalue2);
-                int4 = server.ReceiveFrom(buff, ref remoteClient2);
-                float.TryParse(Encoding.ASCII.GetString(buff, 0, int4), out Xvalue2);
+                if (clientNum == -1)
+                {
+                    clients.Add(clientName);
+                    posX.Add(splitPosData[1]);
+                    posY.Add(splitPosData[2]);
+                    posZ.Add(splitPosData[3]);
+                    endPoints.Add(remoteClient);
+                    clientNum = clients.Count - 1;
+                }
+                else
+                {
+                    posX[clientNum] = splitPosData[1];
+                    posY[clientNum] = splitPosData[2];
+                    posZ[clientNum] = splitPosData[3];
+                    endPoints[clientNum] = remoteClient;
+                }
 
-                int5 = server.ReceiveFrom(buff, ref remoteClient2);
-                float.TryParse(Encoding.ASCII.GetString(buff, 0, int5), out yvalue2);
+                Console.WriteLine(clients[clientNum]);
+                Console.WriteLine(posX[clientNum]);
+                Console.WriteLine(posY[clientNum]);
+                Console.WriteLine(posZ[clientNum]);
+                Console.WriteLine(endPoints[clientNum].ToString());
 
-                int6 = server.ReceiveFrom(buff, ref remoteClient2);
-                float.TryParse(Encoding.ASCII.GetString(buff, 0, int6), out zvalue2);
+                buff = new byte[1024];
+                buff = Encoding.ASCII.GetBytes(clients.Count.ToString() + ",");
+                server.SendTo(buff, endPoints[clientNum]);
+
+                for (int i = 0; i < clients.Count; ++i)
+                {
+                    buff = Encoding.ASCII.GetBytes(clients[i] + "," + posX[i] + "," + posY[i] + "," + posZ[i] + ",");
+                    server.SendTo(buff, endPoints[clientNum]);
+                }
+
             }
             //shutdown
         }
@@ -180,7 +213,7 @@ public class ServerMidterm
     public static int Main(String[] args)
     {
         StartServer();
-        StartChat();
+        //StartChat();
         return 0;
     }
     }

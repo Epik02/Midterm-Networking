@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\EpikG\\OneDrive\\Documents\\GitHub\\Midterm-Networking\\MidtermServer\\MidtermServer\\MidtermServer.csproj": {}
+    "C:\\Users\\EpikG\\OneDrive\\Documents\\GitHub\\MIDTERMCRAM\\MidtermServer\\MidtermServer\\MidtermServer.csproj": {}
   },
   "projects": {
-    "C:\\Users\\EpikG\\OneDrive\\Documents\\GitHub\\Midterm-Networking\\MidtermServer\\MidtermServer\\MidtermServer.csproj": {
+    "C:\\Users\\EpikG\\OneDrive\\Documents\\GitHub\\MIDTERMCRAM\\MidtermServer\\MidtermServer\\MidtermServer.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\EpikG\\OneDrive\\Documents\\GitHub\\Midterm-Networking\\MidtermServer\\MidtermServer\\MidtermServer.csproj",
+        "projectUniqueName": "C:\\Users\\EpikG\\OneDrive\\Documents\\GitHub\\MIDTERMCRAM\\MidtermServer\\MidtermServer\\MidtermServer.csproj",
         "projectName": "MidtermServer",
-        "projectPath": "C:\\Users\\EpikG\\OneDrive\\Documents\\GitHub\\Midterm-Networking\\MidtermServer\\MidtermServer\\MidtermServer.csproj",
+        "projectPath": "C:\\Users\\EpikG\\OneDrive\\Documents\\GitHub\\MIDTERMCRAM\\MidtermServer\\MidtermServer\\MidtermServer.csproj",
         "packagesPath": "C:\\Users\\EpikG\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\EpikG\\OneDrive\\Documents\\GitHub\\Midterm-Networking\\MidtermServer\\MidtermServer\\obj\\",
+        "outputPath": "C:\\Users\\EpikG\\OneDrive\\Documents\\GitHub\\MIDTERMCRAM\\MidtermServer\\MidtermServer\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"

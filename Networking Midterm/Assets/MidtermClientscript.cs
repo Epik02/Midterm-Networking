@@ -23,11 +23,12 @@ public class MidtermClientscript : MonoBehaviour
     public bool newMSG = false;
     String userText = "test";
     public string input = "est";
+    public static string input2 = "";
     public string inputCheck; //compared to input, if different we know a new msg has been entered, we then send it in update
     public GameObject myCube;
     public GameObject osText;
-    private static byte[] outBuffer = new byte[512];
-    private static byte[] buf = new byte[512];
+    private static byte[] outBuffer = new byte[1024];
+    private static byte[] buf = new byte[1024];
     private static IPEndPoint remoteEP;
     private static IPEndPoint ChatEP;
     public GameObject CubeObject;
@@ -64,9 +65,23 @@ public class MidtermClientscript : MonoBehaviour
         input = s;
         Debug.Log(input);
     }
+    public void ReadStringInput2(string s) //for ip address input
+    {
+        input2 = s;
+        Debug.Log(input2);
+    }
+
+    public static bool realIP(string userInput)
+    {
+        IPAddress adr;
+
+        return IPAddress.TryParse(userInput, out adr) && adr.ToString() == userInput;
+    }
 
     public void StartChatClient()
     {
+        //if (realIP(input2))
+        //{
         byte[] buffer = new byte[512];
         //String userText;
         bool run = true;
@@ -132,15 +147,21 @@ public class MidtermClientscript : MonoBehaviour
             Console.WriteLine("Exception: {0}", e);
         }
     }
+        //else
+        //{
+        //    Debug.Log("invalid ip");
+        //}
 
-        // Start is called before the first frame update
+    //}
+
+    // Start is called before the first frame update
     void Start() {
         myCube = GameObject.Find("Cube");
         //chatThread = new Thread(StartChatClient);
         //chatThread.Start();
         posThread = new Thread(StartClient);
         posThread.Start();
-        //StartClient();
+        StartClient();
         Console.ReadKey();
         //StartChatClient();
     }
@@ -148,20 +169,61 @@ public class MidtermClientscript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-            tmp.text = clMSG;
+        tmp.text = clMSG;
 
-        outBuffer = Encoding.ASCII.GetBytes(CubeObject.transform.position.x.ToString());
+        outBuffer = new byte[1024];
+
+
+    string clientName = "CLIENT1";
+        string toSend = clientName + "," + CubeObject.transform.position.x.ToString() + "," + CubeObject.transform.position.y.ToString() + "," + CubeObject.transform.position.z.ToString() + ", END";
+
+        outBuffer = Encoding.ASCII.GetBytes(toSend);
         clientSoc.SendTo(outBuffer, remoteEP);
 
-        outBuffer = Encoding.ASCII.GetBytes(CubeObject.transform.position.y.ToString());
-        clientSoc.SendTo(outBuffer, remoteEP);
 
-        outBuffer = Encoding.ASCII.GetBytes(CubeObject.transform.position.z.ToString());
-        clientSoc.SendTo(outBuffer, remoteEP);
+        buf = new byte[1024];
+        int1 = clientSoc.ReceiveFrom(buf, ref remoteClient);
+
+        int numClients = 0;
+        string num = Encoding.ASCII.GetString(buf);
+        string[] numClient = num.Split(",");
+        numClients = Convert.ToInt32(numClient[0]);
+
+        for (int i = 0; i < numClients; ++i)
+        {
+            buf = new byte[1024];
+            int1 = clientSoc.ReceiveFrom(buf, ref remoteClient);
+
+            string positionData1 = Encoding.ASCII.GetString(buf);
+            string[] splitPosData1 = positionData1.Split(",");
+            string clientName1 = splitPosData1[0];
+            string posX = splitPosData1[1];
+            string posY = splitPosData1[2];
+            string posZ = splitPosData1[3];
+            if (GameObject.Find(clientName1) == null && clientName1 != clientName)
+            {
+                GameObject cube = Instantiate(GameObject.Find("Cube"));
+                cube.transform.name = clientName1;
+                cube.transform.position = new Vector3(float.Parse(posX), float.Parse(posY), float.Parse(posZ));
+            }
+            else if (clientName1 != clientName)
+            {
+                GameObject client = GameObject.Find(clientName1);
+                client.transform.position = new Vector3(float.Parse(posX), float.Parse(posY), float.Parse(posZ));
+            }
+        }
 
         //int1 = clientSoc.ReceiveFrom(buf, ref remoteClient);
         //float.TryParse(Encoding.ASCII.GetString(buf, 0, int1), out xvalue);
         //Debug.Log(xvalue);
+
+        //int2 = clientSoc.ReceiveFrom(buf, ref remoteClient);
+        //float.TryParse(Encoding.ASCII.GetString(buf, 0, int2), out yvalue);
+        //Debug.Log(yvalue);
+
+        //int3 = clientSoc.ReceiveFrom(buf, ref remoteClient);
+        //float.TryParse(Encoding.ASCII.GetString(buf, 0, int3), out zvalue);
+        //Debug.Log(zvalue);
 
     }
 }
